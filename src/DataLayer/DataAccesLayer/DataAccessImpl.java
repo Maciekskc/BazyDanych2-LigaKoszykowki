@@ -4,21 +4,16 @@ import DataLayer.Components.*;
 import DataLayer.Components.Views.MatchResultsEntity;
 import DataLayer.Components.Views.PlayersOtherStatEntity;
 import DataLayer.Components.Views.PlayersStatEntity;
-import net.bytebuddy.implementation.bind.MethodDelegationBinder;
-import oracle.jdbc.oracore.TDSReader;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.spi.PersistenceProvider;
-import java.util.Date;
 import java.sql.Time;
-import java.time.LocalTime;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.prefs.Preferences;
 
+//interfejs implementacyjny zawierający metody operacji na danych
 public class DataAccessImpl implements IDataAccess {
 
     private  PersistenceProvider persistenceProvider ;
@@ -65,80 +60,6 @@ public class DataAccessImpl implements IDataAccess {
     public List<PlayersEntity> getAllPlayers() {
         final String SELECT_QUERY ="from PlayersEntity ";
         return entityManager.createQuery(SELECT_QUERY,PlayersEntity.class).getResultList();
-    }
-
-    @Override
-    public boolean addPlayerEntity(PlayersEntity player) {
-        try{
-            entityManager.getTransaction().begin();
-            System.out.println(player.getPeopleByPeopleId().getBirthDate());
-            System.out.println(player.getPeopleByPeopleId().getName());
-            System.out.println(player.getPeopleByPeopleId().getSurname());
-            System.out.println(player.getPeopleByPeopleId().getId());
-            entityManager.persist(player.getPeopleByPeopleId());
-            entityManager.persist(player.getTeamsByTeamsId());
-            entityManager.persist(player);
-            entityManager.getTransaction().commit();
-        }catch (Exception e) {
-            System.out.println("*************************************************************************************"+e.getMessage());
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public void addSimpleMatch() {
-        MatchesEntity match = new MatchesEntity();
-        match.setDate(new Time(503000));
-        match.setRefereesId(0L);
-        match.setRefereesId1(1L);
-        match.setTeamsId(1L);
-        match.setTeamsId1(2L);
-        match.setId(20L);
-
-
-        PeopleEntity person = new PeopleEntity();
-        Byte x = 104;
-        person.setId(x);
-        person.setName("ToMnie");
-        person.setSurname("Dodano");
-        person.setBirthDate(new Time(503000));
-
-
-        try {
-        entityManager.getTransaction().begin();
-        entityManager.persist(match);
-        entityManager.getTransaction().commit();
-        }catch(Exception e){
-            System.out.println("[*****************************EXCEPTION-add********************************]\n"
-                    +e.getMessage()+
-                    "\n\nPrawdopodobnie Dane  nie zgadzają się z typami zaimplementowanymi w bazie, lub nie mamy wystarczających uprawnień");
-        }
-
-    }
-
-    @Override
-    public void updateSimpleMatch() {
-
-    }
-
-    @Override
-    public void removeSimpleMatch() {
-        PeopleEntity person;
-       // Byte x = 104;
-
-        MatchesEntity match;
-        Long x = 20L;
-        try{
-            entityManager.getTransaction().begin();
-            match = entityManager.find(MatchesEntity.class, x);
-            entityManager.remove(match);
-            entityManager.getTransaction().commit();
-        }catch(Exception e){
-            System.out.println("[*****************************EXCEPTION-remove********************************]\n"
-                    +e.getMessage()
-                    +"\n\nPrawdopodobnie nie znaleziono obiektu który ma zostać usunięty, lub nie mamy wystarczających uprawnień");
-        }
     }
 
     @Override

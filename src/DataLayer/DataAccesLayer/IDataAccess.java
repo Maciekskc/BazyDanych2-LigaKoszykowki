@@ -9,8 +9,10 @@ import DataLayer.Components.Views.PlayersStatEntity;
 
 import java.util.List;
 
+//interfejs programistyczny zawierające metody operacji na na zewnętrzej bazie danych
 public interface IDataAccess {
 
+    //metody logowania do odpowiedniego panelu
     public boolean loginAsUser();
     public boolean loginAsAdmin();
 
@@ -24,25 +26,16 @@ public interface IDataAccess {
     public List<PlayersOtherStatEntity> getPlayersOtherStats();
     public List<MatchResultsEntity> getMatchResults();
 
-    //insert
-    public boolean addPlayerEntity(PlayersEntity player);
+    //crud funkcjonalności, metody sprawdzające operacje na poszczególnych tabelach domyślnie tworzonymi obiektami
 
-
-    //crud testy :
-
-    //czeka na pomyślne testy 1 i 2
-    public void addSimpleMatch();
-    public void updateSimpleMatch();
-    public void removeSimpleMatch();
-
-    //crud #1 - przetestowane działanie - kontroler - metoda shortTestPerson
+    //crud #1 - sprawdzone działanie - kontroler - metoda shortTestPerson
     public PeopleEntity createSimplePerson();
     public void addSimplePerson();
     public PeopleEntity getSimplePerson();
     public void updateSimplePerson();
     public void removeSimplePerson();
 
-    //crud #2 - przetestowane działanie - kontroler - metoda shortTestPlayer
+    //crud #2 - sprawdzone działanie - kontroler - metoda shortTestPlayer
     public PlayersEntity createSimplePlayer();
     public void addSimplePlayer();
     public PlayersEntity getSimplePlayer();
@@ -52,7 +45,7 @@ public interface IDataAccess {
     //pomocniczy getter osoby
     public PeopleEntity getPersonById(Byte id);
 
-    //rzut
+    // #3 - przetestowane działanie - dodawanie/usuwanie zdrzenia z przypisanym rzutem
     public void addThrow();
     public void removeThrow();
 
