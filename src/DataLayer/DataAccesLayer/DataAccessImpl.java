@@ -39,6 +39,10 @@ public class DataAccessImpl implements IDataAccess {
         return true;
     }
 
+    private  PersistenceProvider persistenceProvider ;
+    private EntityManagerFactory entityManagerFactory;
+    private EntityManager entityManager ;
+    
     @Override
     public boolean loginAsAdmin() {
         try{
@@ -57,6 +61,17 @@ public class DataAccessImpl implements IDataAccess {
     }
 
     @Override
+    public void addSimplePerson() {
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.persist(createSimplePerson());
+            entityManager.getTransaction().commit();
+        }catch(Exception e){
+            System.out.println("[************************Wyjątek add simple person*****************************]\n"+e.getMessage());
+        }
+    }
+
+    @Override
     public List<PlayersEntity> getAllPlayers() {
         final String SELECT_QUERY ="from PlayersEntity ";
         return entityManager.createQuery(SELECT_QUERY,PlayersEntity.class).getResultList();
@@ -71,17 +86,6 @@ public class DataAccessImpl implements IDataAccess {
         person.setSurname("Dodano");
         person.setBirthDate(new Time(503000));
         return person;
-    }
-
-    @Override
-    public void addSimplePerson() {
-        try {
-            entityManager.getTransaction().begin();
-            entityManager.persist(createSimplePerson());
-            entityManager.getTransaction().commit();
-        }catch(Exception e){
-            System.out.println("[************************Wyjątek add simple person*****************************]\n"+e.getMessage());
-        }
     }
 
     @Override
